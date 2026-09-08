@@ -195,6 +195,20 @@
         "company",
         "stripe.com"
       ]
+    },
+    "teepublic": {
+      "added_at": "2026-09-08 16:05:11",
+      "bytes": 8179,
+      "ext": "png",
+      "file": "teepublic.png",
+      "id": "teepublic",
+      "name": "teepublic",
+      "ref": "teepublic.com",
+      "source": "twenty-icons",
+      "tags": [
+        "company",
+        "teepublic.com"
+      ]
     }
   },
   "version": 1
