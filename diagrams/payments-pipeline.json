@@ -1,0 +1,165 @@
+{
+  "title": "Payments event pipeline",
+  "direction": "LR",
+  "theme": "light",
+  "nodes": [
+    {
+      "id": "react",
+      "label": "Web app",
+      "sub": "",
+      "group": "",
+      "col": null,
+      "accent": "",
+      "icon": "react"
+    },
+    {
+      "id": "aws",
+      "label": "API Gateway",
+      "sub": "",
+      "group": "",
+      "col": null,
+      "accent": "",
+      "icon": "aws"
+    },
+    {
+      "id": "stripe",
+      "label": "Stripe",
+      "sub": "",
+      "group": "",
+      "col": null,
+      "accent": "",
+      "icon": "stripe"
+    },
+    {
+      "id": "python",
+      "label": "Lambda",
+      "sub": "",
+      "group": "",
+      "col": null,
+      "accent": "",
+      "icon": "python"
+    },
+    {
+      "id": "postgresql",
+      "label": "Postgres",
+      "sub": "",
+      "group": "storage",
+      "col": null,
+      "accent": "",
+      "icon": "postgresql"
+    },
+    {
+      "id": "redis",
+      "label": "Redis",
+      "sub": "",
+      "group": "storage",
+      "col": null,
+      "accent": "",
+      "icon": "redis"
+    },
+    {
+      "id": "kafka-icon",
+      "label": "Kafka",
+      "sub": "",
+      "group": "analytics",
+      "col": null,
+      "accent": "",
+      "icon": "kafka-icon"
+    },
+    {
+      "id": "airflow-icon",
+      "label": "Airflow",
+      "sub": "",
+      "group": "analytics",
+      "col": null,
+      "accent": "",
+      "icon": "airflow-icon"
+    },
+    {
+      "id": "snowflake-icon",
+      "label": "Snowflake",
+      "sub": "",
+      "group": "analytics",
+      "col": null,
+      "accent": "",
+      "icon": "snowflake-icon"
+    },
+    {
+      "id": "grafana",
+      "label": "Grafana",
+      "sub": "",
+      "group": "",
+      "col": null,
+      "accent": "",
+      "icon": "grafana"
+    }
+  ],
+  "edges": [
+    {
+      "src": "react",
+      "dst": "aws",
+      "label": "HTTPS",
+      "dashed": false
+    },
+    {
+      "src": "stripe",
+      "dst": "aws",
+      "label": "webhooks",
+      "dashed": false
+    },
+    {
+      "src": "aws",
+      "dst": "python",
+      "label": "invoke",
+      "dashed": false
+    },
+    {
+      "src": "python",
+      "dst": "postgresql",
+      "label": "SQL",
+      "dashed": false
+    },
+    {
+      "src": "python",
+      "dst": "redis",
+      "label": "cache",
+      "dashed": false
+    },
+    {
+      "src": "python",
+      "dst": "kafka-icon",
+      "label": "events",
+      "dashed": true
+    },
+    {
+      "src": "kafka-icon",
+      "dst": "airflow-icon",
+      "label": "consume",
+      "dashed": false
+    },
+    {
+      "src": "airflow-icon",
+      "dst": "snowflake-icon",
+      "label": "load",
+      "dashed": false
+    },
+    {
+      "src": "snowflake-icon",
+      "dst": "grafana",
+      "label": "dashboards",
+      "dashed": false
+    }
+  ],
+  "groups": [
+    {
+      "id": "storage",
+      "label": "Datastores",
+      "color": "#22a06b"
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics",
+      "color": "#5b8def"
+    }
+  ]
+}

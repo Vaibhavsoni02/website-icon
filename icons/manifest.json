@@ -1,0 +1,201 @@
+{
+  "icons": {
+    "airflow-icon": {
+      "added_at": "2026-09-08 19:33:13",
+      "bytes": 1742,
+      "ext": "svg",
+      "file": "airflow-icon.svg",
+      "id": "airflow-icon",
+      "name": "airflow-icon",
+      "ref": "logos:airflow-icon",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "aws": {
+      "added_at": "2026-09-08 19:33:05",
+      "bytes": 3798,
+      "ext": "svg",
+      "file": "aws.svg",
+      "id": "aws",
+      "name": "aws",
+      "ref": "logos:aws",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "datadoghq": {
+      "added_at": "2026-09-08 19:33:18",
+      "bytes": 19591,
+      "ext": "png",
+      "file": "datadoghq.png",
+      "id": "datadoghq",
+      "name": "datadoghq",
+      "ref": "datadoghq.com",
+      "source": "twenty-icons",
+      "tags": [
+        "company",
+        "datadoghq.com"
+      ]
+    },
+    "docker-icon": {
+      "added_at": "2026-09-08 19:33:14",
+      "bytes": 797,
+      "ext": "svg",
+      "file": "docker-icon.svg",
+      "id": "docker-icon",
+      "name": "docker-icon",
+      "ref": "logos:docker-icon",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "github-icon": {
+      "added_at": "2026-09-08 19:33:15",
+      "bytes": 2003,
+      "ext": "svg",
+      "file": "github-icon.svg",
+      "id": "github-icon",
+      "name": "github-icon",
+      "ref": "logos:github-icon",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "grafana": {
+      "added_at": "2026-09-08 19:33:16",
+      "bytes": 5636,
+      "ext": "svg",
+      "file": "grafana.svg",
+      "id": "grafana",
+      "name": "grafana",
+      "ref": "logos:grafana",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "kafka-icon": {
+      "added_at": "2026-09-08 19:33:09",
+      "bytes": 3538,
+      "ext": "svg",
+      "file": "kafka-icon.svg",
+      "id": "kafka-icon",
+      "name": "kafka-icon",
+      "ref": "logos:kafka-icon",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "kubernetes": {
+      "added_at": "2026-09-08 19:33:06",
+      "bytes": 6496,
+      "ext": "svg",
+      "file": "kubernetes.svg",
+      "id": "kubernetes",
+      "name": "kubernetes",
+      "ref": "logos:kubernetes",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "postgresql": {
+      "added_at": "2026-09-08 19:33:07",
+      "bytes": 6739,
+      "ext": "svg",
+      "file": "postgresql.svg",
+      "id": "postgresql",
+      "name": "postgresql",
+      "ref": "logos:postgresql",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "python": {
+      "added_at": "2026-09-08 19:33:10",
+      "bytes": 1316,
+      "ext": "svg",
+      "file": "python.svg",
+      "id": "python",
+      "name": "python",
+      "ref": "logos:python",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "react": {
+      "added_at": "2026-09-08 19:33:10",
+      "bytes": 3695,
+      "ext": "svg",
+      "file": "react.svg",
+      "id": "react",
+      "name": "react",
+      "ref": "logos:react",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "redis": {
+      "added_at": "2026-09-08 19:33:08",
+      "bytes": 2676,
+      "ext": "svg",
+      "file": "redis.svg",
+      "id": "redis",
+      "name": "redis",
+      "ref": "logos:redis",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "snowflake-icon": {
+      "added_at": "2026-09-08 19:33:12",
+      "bytes": 2675,
+      "ext": "svg",
+      "file": "snowflake-icon.svg",
+      "id": "snowflake-icon",
+      "name": "snowflake-icon",
+      "ref": "logos:snowflake-icon",
+      "source": "iconify",
+      "tags": [
+        "logos",
+        "starter"
+      ]
+    },
+    "stripe": {
+      "added_at": "2026-09-08 19:33:17",
+      "bytes": 3048,
+      "ext": "png",
+      "file": "stripe.png",
+      "id": "stripe",
+      "name": "stripe",
+      "ref": "stripe.com",
+      "source": "twenty-icons",
+      "tags": [
+        "company",
+        "stripe.com"
+      ]
+    }
+  },
+  "version": 1
+}
