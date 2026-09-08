@@ -235,6 +235,20 @@
         "rudderstack.com"
       ]
     },
+    "rudderstack-2": {
+      "added_at": "2026-09-08 16:42:38",
+      "bytes": 719,
+      "ext": "png",
+      "file": "rudderstack-2.png",
+      "id": "rudderstack-2",
+      "name": "rudderstack",
+      "ref": "rudderstack.com",
+      "source": "twenty-icons",
+      "tags": [
+        "cdp",
+        "rudderstack.com"
+      ]
+    },
     "sigmacomputing": {
       "added_at": "2026-09-08 16:40:00",
       "bytes": 3888,
