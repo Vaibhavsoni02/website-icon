@@ -168,6 +168,20 @@
         "starter"
       ]
     },
+    "simondata": {
+      "added_at": "2026-09-08 16:07:11",
+      "bytes": 2773,
+      "ext": "png",
+      "file": "simondata.png",
+      "id": "simondata",
+      "name": "simondata",
+      "ref": "simondata.com",
+      "source": "twenty-icons",
+      "tags": [
+        "company",
+        "simondata.com"
+      ]
+    },
     "snowflake-icon": {
       "added_at": "2026-09-08 19:33:12",
       "bytes": 2675,
