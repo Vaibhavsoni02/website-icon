@@ -83,6 +83,19 @@
         "datawarehouse"
       ]
     },
+    "gbq-2": {
+      "added_at": "2026-09-08 16:22:40",
+      "bytes": 11754,
+      "ext": "png",
+      "file": "gbq-2.png",
+      "id": "gbq-2",
+      "name": "gbq",
+      "ref": "gbq.png",
+      "source": "upload",
+      "tags": [
+        "datawarehouse"
+      ]
+    },
     "github-icon": {
       "added_at": "2026-09-08 19:33:15",
       "bytes": 2003,
