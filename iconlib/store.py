@@ -7,7 +7,9 @@ import json
 import re
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
+
+from . import ghstore
 
 ROOT = Path(__file__).resolve().parents[1]
 ICON_DIR = ROOT / "icons"
@@ -24,6 +26,36 @@ MIME = {
     "webp": "image/webp",
     "ico": "image/x-icon",
 }
+
+
+# Results of background GitHub mirroring, drained by the UI to show toasts.
+SYNC_EVENTS: List[tuple] = []
+
+
+def _sync(message: str, paths: Iterable[str], deletes: Iterable[str] = ()) -> None:
+    """Mirror the given repo-relative paths to GitHub, if a token is configured.
+
+    A failure here must never lose the local write, so problems are recorded
+    rather than raised.
+    """
+    if not ghstore.enabled():
+        return
+    files = {}
+    for path in paths:
+        full = ROOT / path
+        if full.exists():
+            files[path] = full.read_bytes()
+    try:
+        sha = ghstore.commit_files(files, message, deletes=deletes)
+        if sha:
+            SYNC_EVENTS.append((True, f"Committed to GitHub ({sha})"))
+    except Exception as exc:  # noqa: BLE001 - surfaced in the UI instead
+        SYNC_EVENTS.append((False, f"GitHub sync failed: {exc}"))
+
+
+def drain_sync() -> List[tuple]:
+    events, SYNC_EVENTS[:] = list(SYNC_EVENTS), []
+    return events
 
 
 def slugify(name: str) -> str:
@@ -86,8 +118,10 @@ def save_icon(
 
     # A re-save with a different extension shouldn't leave the old file behind.
     old = manifest["icons"].get(icon_id)
+    stale = ""
     if old and old.get("file") and old["file"] != filename:
         (ICON_DIR / old["file"]).unlink(missing_ok=True)
+        stale = f"icons/{old['file']}"
 
     record = {
         "id": icon_id,
@@ -102,6 +136,8 @@ def save_icon(
     }
     manifest["icons"][icon_id] = record
     save_manifest(manifest)
+    _sync(f"Add icon {icon_id}", [f"icons/{filename}", "icons/manifest.json"],
+          deletes=[stale] if stale else ())
     return record
 
 
@@ -114,6 +150,7 @@ def update_icon(icon_id: str, **fields: Any) -> Optional[Dict[str, Any]]:
         fields["tags"] = sorted({t.strip().lower() for t in fields["tags"] if t.strip()})
     record.update(fields)
     save_manifest(manifest)
+    _sync(f"Update icon {icon_id}", ["icons/manifest.json"])
     return record
 
 
@@ -124,6 +161,8 @@ def delete_icon(icon_id: str) -> bool:
         return False
     (ICON_DIR / record["file"]).unlink(missing_ok=True)
     save_manifest(manifest)
+    _sync(f"Remove icon {icon_id}", ["icons/manifest.json"],
+          deletes=[f"icons/{record['file']}"])
     return True
 
 
@@ -182,11 +221,23 @@ def list_diagrams() -> List[str]:
     return sorted(p.stem for p in DIAGRAM_DIR.glob("*.json"))
 
 
-def save_diagram(name: str, spec: Dict[str, Any]) -> Path:
+def save_diagram(name: str, spec: Dict[str, Any], sync: bool = True) -> Path:
     _ensure_dirs()
     path = DIAGRAM_DIR / f"{slugify(name)}.json"
     path.write_text(json.dumps(spec, indent=2) + "\n")
+    if sync:
+        _sync(f"Save diagram {slugify(name)}", [f"diagrams/{path.name}"])
     return path
+
+
+def save_diagram_bundle(name: str, spec: Dict[str, Any], svg: str) -> Path:
+    """Spec + rendered SVG, mirrored to GitHub as a single commit."""
+    slug = slugify(name)
+    save_diagram(name, spec, sync=False)
+    export = save_export(name, svg, sync=False)
+    _sync(f"Save diagram {slug}",
+          [f"diagrams/{slug}.json", f"exports/{export.name}"])
+    return export
 
 
 def load_diagram(name: str) -> Dict[str, Any]:
@@ -194,11 +245,17 @@ def load_diagram(name: str) -> Dict[str, Any]:
 
 
 def delete_diagram(name: str) -> None:
-    (DIAGRAM_DIR / f"{slugify(name)}.json").unlink(missing_ok=True)
+    slug = slugify(name)
+    (DIAGRAM_DIR / f"{slug}.json").unlink(missing_ok=True)
+    (EXPORT_DIR / f"{slug}.svg").unlink(missing_ok=True)
+    _sync(f"Remove diagram {slug}", [],
+          deletes=[f"diagrams/{slug}.json", f"exports/{slug}.svg"])
 
 
-def save_export(name: str, svg: str) -> Path:
+def save_export(name: str, svg: str, sync: bool = True) -> Path:
     _ensure_dirs()
     path = EXPORT_DIR / f"{slugify(name)}.svg"
     path.write_text(svg)
+    if sync:
+        _sync(f"Export {path.name}", [f"exports/{path.name}"])
     return path

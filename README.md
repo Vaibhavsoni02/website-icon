@@ -70,12 +70,34 @@ Export: **⬇ SVG**, **Copy PNG** (clipboard, 2200px), or **💾 Save to repo**,
 
 ### ⬆️ Repo
 
-`git status`, one-click commit of `icons/`, `diagrams/` and `exports/`, and push. To push
-somewhere, add a remote first:
+Two ways to get saves into the repo, depending on where the app is running.
+
+**Local git** — `git status`, one-click commit of `icons/`, `diagrams/` and `exports/`,
+and push. To push somewhere, add a remote first:
 
 ```bash
 git remote add origin git@github.com:<you>/<repo>.git
 ```
+
+**GitHub sync** — for deployments with an ephemeral disk (Streamlit Community Cloud wipes
+it on every reboot). With a token configured, each save commits straight to the repo over
+the API, so the library survives restarts. Configure via environment variables or
+Streamlit secrets:
+
+```toml
+GITHUB_TOKEN = "github_pat_…"
+GITHUB_REPO = "owner/repo"
+GITHUB_BRANCH = "main"
+```
+
+Use a **fine-grained PAT scoped to that one repository** with *Contents: read and write* —
+nothing else. On Streamlit Cloud it goes in **Manage app → Settings → Secrets**, never in
+a GitHub repo secret (those are only visible to Actions) and never in a committed file.
+`.streamlit/secrets.toml` is gitignored; see `.streamlit/secrets.toml.example`.
+
+When enabled, an icon and the updated manifest land in a *single* commit, and the Repo tab
+gains a **Test connection** button that verifies write access. A sync failure never loses
+the local write — it surfaces as a warning and the file is still on disk.
 
 ---
 
@@ -88,6 +110,7 @@ exports/          rendered SVGs                 ← committed
 iconlib/
   sources.py      Iconify / twenty-icons / URL fetching
   store.py        library on disk + manifest
+  ghstore.py      optional GitHub API mirror (for ephemeral hosts)
   diagram.py      layout + SVG renderer + text DSL
   render.py       clipboard/download widgets
   repo.py         git helpers

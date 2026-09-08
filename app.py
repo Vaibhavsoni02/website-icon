@@ -8,7 +8,7 @@ import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
 
-from iconlib import diagram, render, repo, sources, store
+from iconlib import diagram, ghstore, render, repo, sources, store
 
 st.set_page_config(page_title="Icon Studio", page_icon="🧩", layout="wide")
 
@@ -40,9 +40,18 @@ def spec() -> Dict[str, Any]:
     return st.session_state.spec
 
 
+def show_sync() -> None:
+    """Surface the result of any GitHub mirroring the last action triggered."""
+    for ok, message in store.drain_sync():
+        st.toast(message, icon="☁️" if ok else "⚠️")
+        if not ok:
+            st.session_state.sync_error = message
+
+
 def save_bytes(name: str, data: bytes, ext: str, source: str, ref: str, tags: List[str]) -> None:
     record = store.save_icon(name=name, data=data, ext=ext, source=source, ref=ref, tags=tags)
     st.toast(f"Saved **{record['id']}** → `icons/{record['file']}`", icon="✅")
+    show_sync()
 
 
 def add_node_from_icon(record: Dict[str, Any]) -> None:
@@ -72,12 +81,17 @@ with st.sidebar:
     st.metric("Icons in library", len(icons_all))
     st.metric("Nodes on canvas", len(spec()["nodes"]))
     st.divider()
-    if repo.is_repo():
+    if ghstore.enabled():
+        st.caption(f"☁️ syncing to `{ghstore.repo()}`")
+        st.caption("Saves commit straight to GitHub.")
+    elif repo.is_repo():
         pending = repo.pending_changes()
         st.caption(f"git · `{repo.branch() or 'main'}`")
         st.caption(f"{len(pending)} uncommitted change(s) in icons/diagrams")
     else:
         st.caption("git · not a repo yet (see the Repo tab)")
+    if st.session_state.get("sync_error"):
+        st.warning(st.session_state.sync_error, icon="⚠️")
     st.divider()
     st.caption(
         "Sources: [Iconify](https://iconify.design) · "
@@ -467,11 +481,11 @@ if view == VIEWS[2]:
             )
         if e3.button("💾 Save to repo", type="primary", use_container_width=True,
                      disabled=not current["nodes"]):
-            store.save_diagram(diagram_name, current)
-            path = store.save_export(diagram_name, svg)
+            path = store.save_diagram_bundle(diagram_name, current, svg)
             st.session_state.loaded_name = store.slugify(diagram_name)
             st.toast(f"Saved `diagrams/{store.slugify(diagram_name)}.json` and "
                      f"`exports/{path.name}`", icon="💾")
+            show_sync()
         if saved and e4.button("🗑 Delete saved diagram", use_container_width=True,
                                disabled=not load_pick):
             store.delete_diagram(load_pick)
@@ -482,6 +496,36 @@ if view == VIEWS[2]:
 # --- 4. repo --------------------------------------------------------------
 
 if view == VIEWS[3]:
+    st.markdown("#### ☁️ GitHub sync")
+    if ghstore.enabled():
+        st.success(f"Enabled — every save commits to **{ghstore.repo()}** "
+                   f"on `{ghstore.branch()}`.")
+        if st.button("Test connection"):
+            try:
+                info = ghstore.check()
+                st.success(f"Write access confirmed to **{info['repo']}** "
+                           f"(branch `{info['branch']}`, "
+                           f"{'private' if info['private'] else 'public'}).")
+                st.session_state.pop("sync_error", None)
+            except ghstore.GitHubError as exc:
+                st.error(str(exc))
+    else:
+        st.info(
+            "Not configured — saves only touch the local disk. That's fine when you "
+            "run this on your own machine, but on Streamlit Cloud the disk is wiped "
+            "on every reboot. To persist there, add these to the app's **Secrets**:"
+        )
+        st.code(
+            'GITHUB_TOKEN = "github_pat_…"\n'
+            'GITHUB_REPO = "owner/repo"\n'
+            'GITHUB_BRANCH = "main"',
+            language="toml",
+        )
+        st.caption("Use a fine-grained PAT limited to that one repo, with "
+                   "**Contents: read and write**. Never commit it.")
+
+    st.divider()
+    st.markdown("#### 🖥 Local git")
     st.markdown(f"Repo root: `{store.ROOT}`")
     if not repo.is_repo():
         st.warning("This folder isn't a git repository yet.")
