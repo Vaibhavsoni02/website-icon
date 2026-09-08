@@ -221,6 +221,20 @@
         "starter"
       ]
     },
+    "sigmacomputing": {
+      "added_at": "2026-09-08 16:40:00",
+      "bytes": 3888,
+      "ext": "png",
+      "file": "sigmacomputing.png",
+      "id": "sigmacomputing",
+      "name": "sigmacomputing",
+      "ref": "sigmacomputing.com",
+      "source": "twenty-icons",
+      "tags": [
+        "concent",
+        "sigmacomputing.com"
+      ]
+    },
     "simondata": {
       "added_at": "2026-09-08 16:07:11",
       "bytes": 2773,
