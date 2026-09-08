@@ -14,6 +14,20 @@
         "starter"
       ]
     },
+    "amplitude": {
+      "added_at": "2026-09-08 16:11:58",
+      "bytes": 8862,
+      "ext": "png",
+      "file": "amplitude.png",
+      "id": "amplitude",
+      "name": "amplitude",
+      "ref": "amplitude.com",
+      "source": "twenty-icons",
+      "tags": [
+        "amplitude.com",
+        "company"
+      ]
+    },
     "aws": {
       "added_at": "2026-09-08 19:33:05",
       "bytes": 3798,
