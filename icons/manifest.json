@@ -56,6 +56,20 @@
         "starter"
       ]
     },
+    "branch": {
+      "added_at": "2026-09-09 05:15:47",
+      "bytes": 3539,
+      "ext": "png",
+      "file": "branch.png",
+      "id": "branch",
+      "name": "branch",
+      "ref": "branch.io",
+      "source": "twenty-icons",
+      "tags": [
+        "attribution",
+        "branch.io"
+      ]
+    },
     "datadoghq": {
       "added_at": "2026-09-08 19:33:18",
       "bytes": 19591,
